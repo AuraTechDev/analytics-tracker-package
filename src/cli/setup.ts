@@ -1,6 +1,6 @@
 import inquirer from "inquirer";
 import { MongoClient } from "mongodb";
-import { generateApiKey } from "../utils/strings"
+import { generateApiKey } from "../utils/strings";
 import { questions } from "../utils/questions";
 
 async function registerApp(appName: string, apiKey: string): Promise<void> {
@@ -16,7 +16,7 @@ async function registerApp(appName: string, apiKey: string): Promise<void> {
     // Verificar si la app ya existe
     const existingApp = await apps.findOne({ appName });
     if (existingApp) {
-      throw new Error(`La aplicación "${appName}" ya está registrada`);
+      throw new Error(`The application "${appName}" is already registered`);
     }
 
     // Registrar nueva app
@@ -27,9 +27,9 @@ async function registerApp(appName: string, apiKey: string): Promise<void> {
       active: true,
     });
 
-    console.log("\n✅ Aplicación registrada exitosamente en la base de datos");
+    console.log("\n✅ Application successfully registered in the database");
   } catch (error) {
-    console.error("Error al registrar la aplicación:", error);
+    console.error("❌ Error registering the application:", error);
     throw error;
   } finally {
     await client.close();
@@ -38,12 +38,10 @@ async function registerApp(appName: string, apiKey: string): Promise<void> {
 
 export async function setupCLI(): Promise<void> {
   try {
-    console.log("\n🔧 Configuración de Track Analytics\n");
+    console.log("\n🔧 Track Analytics Setup\n");
 
     // Preguntar solo el nombre de la aplicación
-    const answers = await inquirer.prompt([
-      ...questions
-    ]);
+    const answers = await inquirer.prompt([...questions]);
 
     // Generar API key
     const apiKey = generateApiKey();
@@ -52,12 +50,12 @@ export async function setupCLI(): Promise<void> {
     await registerApp(answers.appName, apiKey);
 
     // Mostrar información de configuración
-    console.log("\n📝 Información de tu aplicación:");
+    console.log("\n📝 Your application information:");
     console.log("--------------------------------");
-    console.log(`Nombre: ${answers.appName}`);
+    console.log(`Name: ${answers.appName}`);
     console.log(`API Key: ${apiKey}`);
 
-    console.log("\n📚 Para comenzar a usar el tracking en tu aplicación:");
+    console.log("\n📚 To start using tracking in your application:");
     console.log("\n```javascript");
     console.log("import { Tracker } from 'track-analytics';");
     console.log("const tracker = new Tracker({");
@@ -67,7 +65,7 @@ export async function setupCLI(): Promise<void> {
     console.log("await tracker.initialize();");
     console.log("```\n");
   } catch (error) {
-    console.error("\n❌ Error durante la configuración:", error);
+    console.error("\n❌ Error during setup:", error);
     process.exit(1);
   }
 }
