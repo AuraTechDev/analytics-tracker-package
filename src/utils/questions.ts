@@ -2,13 +2,13 @@ export const questions = [
   {
     type: "input",
     name: "appName",
-    message: "¿Cuál es el nombre de tu aplicación?",
-    validate: (input: string) => {
+    message: "What is the name of your application?",
+    validate: (input: string): boolean | string => {
       if (input.length < 1) {
-        return "El nombre de la aplicación no puede estar vacío";
+        return "The application name cannot be empty";
       }
       if (!/^[a-zA-Z0-9-_]+$/.test(input)) {
-        return "El nombre solo puede contener letras, números, guiones y guiones bajos";
+        return "The name can only contain letters, numbers, hyphens, and underscores";
       }
       return true;
     },
