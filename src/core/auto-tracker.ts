@@ -376,7 +376,6 @@ export class AutoTracker {
     }
   }
 
-  // TODO: Implement the track event endpoint and remove the fetch call
   private async flush(): Promise<void> {
     if (this.events.length === 0) return;
 
@@ -404,6 +403,7 @@ export class AutoTracker {
       if (this.config.debug) {
         console.error("Failed to send events:", error);
       }
+
       // Add events back to the queue
       this.events = [...eventsToSend, ...this.events];
     }
