@@ -64,6 +64,17 @@ interface TrackerConfig {
   endpoint?: string; // Optional custom endpoint
   environment?: string; // Environment where the tracker is running (e.g., 'production', 'development')
   debug?: boolean; // Enable or disable debug mode
+  batchSize?: number; // Number of events to batch before sending
+  flushInterval?: number; // Time interval (in milliseconds) to flush events
+  trackingOptions?: {
+    clicks?: boolean; // Track click events
+    navigation?: boolean; // Track navigation events
+    forms?: boolean; // Track form submissions
+    errors?: boolean; // Track errors
+    performance?: boolean; // Track performance metrics
+    scrolling?: boolean; // Track scrolling events
+    network?: boolean; // Track network requests
+  };
 }
 ```
 
