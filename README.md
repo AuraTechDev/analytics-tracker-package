@@ -70,7 +70,7 @@ interface TrackingConfig {
 
 ```typescript
 interface AppRegistration {
-  appName: string; // Application name
+  name: string; // Application name
   active: boolean; // Application status
 }
 ```

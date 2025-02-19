@@ -1,5 +1,6 @@
 export * from "./cli";
 
 export interface AppRegistration {
-  appName: string;
+  name: string;
+  active: boolean;
 }
