@@ -15,6 +15,9 @@ import { TrackingEvent } from "../types/event";
  *   endpoint: config.endpoint,
  *   environment: config.environment,
  *   debug: config.debug,
+ *   batchSize: 10,
+ *   flushInterval: 5000,
+ *   // Optional: customize what to track
  *   trackingOptions: {
  *     clicks: true,
  *     navigation: true,
