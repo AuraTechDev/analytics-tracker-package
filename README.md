@@ -59,10 +59,11 @@ await tracker.initialize();
 ### Tracker Configuration
 
 ```typescript
-interface TrackingConfig {
-  apiKey: string; // Your application's API key
-  appName: string; // Your application name
+interface TrackerConfig {
+  appId: string; // Your application's app id
   endpoint?: string; // Optional custom endpoint
+  environment?: string; // Environment where the tracker is running (e.g., 'production', 'development')
+  debug?: boolean; // Enable or disable debug mode
 }
 ```
 
