@@ -1,5 +1,5 @@
 import { TrackerConfig } from "../types/tracker.config";
-import { TrackingEvent } from "../types/event";
+import { TrackingEvent } from "../types/tracking-event";
 
 /**
  * Example usage of AutoTracker:
@@ -352,7 +352,6 @@ export class AutoTracker {
     metadata?: Record<string, unknown>
   ): void {
     const event: TrackingEvent = {
-      appId: this.config.appId,
       eventName,
       timestamp: Date.now(),
       path: window.location.pathname,

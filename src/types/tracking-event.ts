@@ -1,5 +1,4 @@
 export interface TrackingEvent {
-  appId: string;
   eventName: string;
   timestamp: number;
   path: string;

@@ -1,10 +1,10 @@
 export interface TrackerConfig {
   appId: string;
   endpoint: string;
-  batchSize?: number;
-  flushInterval?: number;
   environment?: string;
   debug?: boolean;
+  batchSize?: number;
+  flushInterval?: number;
   trackingOptions?: {
     clicks?: boolean;
     navigation?: boolean;
