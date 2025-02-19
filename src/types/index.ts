@@ -1,4 +1,7 @@
 export * from "./cli";
+export * from "./env.config";
+export * from "./event";
+export * from "./tracker.config";
 
 export interface TrackingConfig {
   apiKey: string;
@@ -9,7 +12,7 @@ export interface TrackingConfig {
 export interface TrackingEvent {
   type: string;
   timestamp: number;
-  data: Record<string, any>;
+  data: Record<string, unknown>;
 }
 
 export interface AppRegistration {
