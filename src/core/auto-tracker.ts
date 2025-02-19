@@ -1,6 +1,38 @@
 import { TrackerConfig } from "../types/tracker.config";
 import { TrackingEvent } from "../types/event";
 
+/**
+ * Example usage of AutoTracker:
+ *
+ * import { AutoTracker, loadTrackerConfig } from 'track-analytics';
+ *
+ * // Load configuration from environment variables
+ * const config = loadTrackerConfig();
+ *
+ * // Initialize the tracker with configuration
+ * const tracker = new AutoTracker({
+ *   appId: config.appId,
+ *   endpoint: config.endpoint,
+ *   environment: config.environment,
+ *   debug: config.debug,
+ *   trackingOptions: {
+ *     clicks: true,
+ *     navigation: true,
+ *     forms: true,
+ *     errors: true,
+ *     performance: true,
+ *     scrolling: true,
+ *     network: true,
+ *   },
+ * });
+ *
+ * // The tracker will automatically start collecting data
+ * // Clean up when done
+ * window.addEventListener('beforeunload', () => {
+ *   tracker.destroy();
+ * });
+ */
+
 export class AutoTracker {
   private events: TrackingEvent[] = [];
   private config: TrackerConfig;
