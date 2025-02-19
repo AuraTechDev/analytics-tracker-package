@@ -1,6 +1,6 @@
-import { TrackerEnvConfig } from "./types/env.config";
+import { TrackerEnvConfig } from "../types/env.config";
 
-export function loadTrackerConfig(): TrackerEnvConfig {
+export const loadTrackerConfig = (): TrackerEnvConfig => {
   const appId = process.env.TRACKER_APP_ID;
 
   if (!appId) {
@@ -16,4 +16,4 @@ export function loadTrackerConfig(): TrackerEnvConfig {
     environment: process.env.NODE_ENV || "development",
     debug: process.env.TRACKER_DEBUG === "true",
   };
-}
+};
