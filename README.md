@@ -33,6 +33,7 @@ pnpm setup
 ```
 
 During setup, you'll be prompted to:
+
 1. Enter your application name
 2. The system will automatically generate an API key for your application
 
@@ -41,11 +42,13 @@ During setup, you'll be prompted to:
 After completing the setup, you can start using the tracker in your application:
 
 ```typescript
-import { Tracker } from 'analytics-tracker-package';
+import { Tracker } from "analytics-tracker";
 
 const tracker = new Tracker({
-  apiKey: 'your-api-key',
-  appName: 'your-app-name'
+  appId: "YOUR_APP_ID",
+  endpoint: "https://your-custom-endpoint.com",
+  environment: "production",
+  debug: true,
 });
 
 await tracker.initialize();
@@ -57,9 +60,9 @@ await tracker.initialize();
 
 ```typescript
 interface TrackingConfig {
-  apiKey: string;      // Your application's API key
-  appName: string;     // Your application name
-  endpoint?: string;   // Optional custom endpoint
+  apiKey: string; // Your application's API key
+  appName: string; // Your application name
+  endpoint?: string; // Optional custom endpoint
 }
 ```
 
@@ -67,11 +70,8 @@ interface TrackingConfig {
 
 ```typescript
 interface AppRegistration {
-  appName: string;     // Application name
-  apiKey: string;      // Generated API key
-  endpoint: string;    // API endpoint
-  createdAt: Date;     // Registration date
-  active: boolean;     // Application status
+  appName: string; // Application name
+  active: boolean; // Application status
 }
 ```
 
@@ -79,9 +79,9 @@ interface AppRegistration {
 
 ```typescript
 interface TrackingEvent {
-  type: string;                    // Event type
-  timestamp: number;               // Event timestamp
-  data: Record<string, any>;       // Event data
+  type: string; // Event type
+  timestamp: number; // Event timestamp
+  data: Record<string, any>; // Event data
 }
 ```
 
