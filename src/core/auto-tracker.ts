@@ -156,6 +156,7 @@ export class AutoTracker {
     // Track form field interactions
     document.addEventListener("change", (e) => {
       const target = e.target as HTMLInputElement;
+
       if (target.form) {
         this.trackEvent("form_field_change", {
           formId: target.form.id,
@@ -284,8 +285,10 @@ export class AutoTracker {
 
   private setupNetworkTracking(): void {
     const originalFetch = window.fetch;
+
     window.fetch = async (...args): Promise<Response> => {
       const startTime = performance.now();
+
       try {
         const response = await originalFetch(...args);
         this.trackEvent("network_request", {
