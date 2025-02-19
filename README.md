@@ -33,6 +33,7 @@ pnpm setup
 ```
 
 During setup, you'll be prompted to:
+
 1. Enter your application name
 2. The system will automatically generate an API key for your application
 
@@ -41,11 +42,13 @@ During setup, you'll be prompted to:
 After completing the setup, you can start using the tracker in your application:
 
 ```typescript
-import { Tracker } from 'analytics-tracker-package';
+import { Tracker } from "analytics-tracker";
 
 const tracker = new Tracker({
-  apiKey: 'your-api-key',
-  appName: 'your-app-name'
+  appId: "YOUR_APP_ID",
+  endpoint: "https://your-custom-endpoint.com",
+  environment: "production",
+  debug: true,
 });
 
 await tracker.initialize();
@@ -56,10 +59,22 @@ await tracker.initialize();
 ### Tracker Configuration
 
 ```typescript
-interface TrackingConfig {
-  apiKey: string;      // Your application's API key
-  appName: string;     // Your application name
-  endpoint?: string;   // Optional custom endpoint
+interface TrackerConfig {
+  appId: string; // Your application's app id
+  endpoint?: string; // Optional custom endpoint
+  environment?: string; // Environment where the tracker is running (e.g., 'production', 'development')
+  debug?: boolean; // Enable or disable debug mode
+  batchSize?: number; // Number of events to batch before sending
+  flushInterval?: number; // Time interval (in milliseconds) to flush events
+  trackingOptions?: {
+    clicks?: boolean; // Track click events
+    navigation?: boolean; // Track navigation events
+    forms?: boolean; // Track form submissions
+    errors?: boolean; // Track errors
+    performance?: boolean; // Track performance metrics
+    scrolling?: boolean; // Track scrolling events
+    network?: boolean; // Track network requests
+  };
 }
 ```
 
@@ -67,21 +82,26 @@ interface TrackingConfig {
 
 ```typescript
 interface AppRegistration {
-  appName: string;     // Application name
-  apiKey: string;      // Generated API key
-  endpoint: string;    // API endpoint
-  createdAt: Date;     // Registration date
-  active: boolean;     // Application status
+  name: string; // Application name
+  active: boolean; // Application status
 }
 ```
 
 ### Event Tracking
 
 ```typescript
-interface TrackingEvent {
-  type: string;                    // Event type
-  timestamp: number;               // Event timestamp
-  data: Record<string, any>;       // Event data
+interface TrackerEvent {
+    eventName: string; // Name of the event
+    timestamp: number; // Event timestamp
+    path: string; // Path where the event occurred
+    location: {
+      href: string; // Full URL of the page
+      pathname: string; // Pathname of the URL
+      search: string; // Query string of the URL
+      hash: string; // Fragment identifier of the URL
+    };
+    metadata?: Record<string, unknown>; // Optional additional metadata
+  }
 }
 ```
 
