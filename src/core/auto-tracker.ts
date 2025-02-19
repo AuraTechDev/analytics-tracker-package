@@ -389,7 +389,7 @@ export class AutoTracker {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-App-ID": this.config.appId,
+          "x-app-id": this.config.appId,
         },
         body: JSON.stringify(eventsToSend),
       });
