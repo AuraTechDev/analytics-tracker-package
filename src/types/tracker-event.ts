@@ -1,4 +1,4 @@
-export interface TrackingEvent {
+export interface TrackerEvent {
   eventName: string;
   timestamp: number;
   path: string;

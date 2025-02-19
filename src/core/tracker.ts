@@ -1,5 +1,5 @@
 import { TrackerConfig } from "../types/tracker.config";
-import { TrackingEvent } from "../types/tracking-event";
+import { TrackerEvent } from "../types/tracker-event";
 
 /**
  * Example usage of AutoTracker:
@@ -37,7 +37,7 @@ import { TrackingEvent } from "../types/tracking-event";
  */
 
 export class Tracker {
-  private events: TrackingEvent[] = [];
+  private events: TrackerEvent[] = [];
   private config: TrackerConfig;
   private flushIntervalId?: number;
   private performanceObserver?: PerformanceObserver;
@@ -351,7 +351,7 @@ export class Tracker {
     eventName: string,
     metadata?: Record<string, unknown>
   ): void {
-    const event: TrackingEvent = {
+    const event: TrackerEvent = {
       eventName,
       timestamp: Date.now(),
       path: window.location.pathname,

@@ -78,10 +78,18 @@ interface AppRegistration {
 ### Event Tracking
 
 ```typescript
-interface TrackingEvent {
-  type: string; // Event type
-  timestamp: number; // Event timestamp
-  data: Record<string, any>; // Event data
+interface TrackerEvent {
+    eventName: string; // Name of the event
+    timestamp: number; // Event timestamp
+    path: string; // Path where the event occurred
+    location: {
+      href: string; // Full URL of the page
+      pathname: string; // Pathname of the URL
+      search: string; // Query string of the URL
+      hash: string; // Fragment identifier of the URL
+    };
+    metadata?: Record<string, unknown>; // Optional additional metadata
+  }
 }
 ```
 
