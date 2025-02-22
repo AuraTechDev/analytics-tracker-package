@@ -22,3 +22,4 @@ export class Tracker {
     console.log("Tracking event:", fullEvent);
   }
 }
+

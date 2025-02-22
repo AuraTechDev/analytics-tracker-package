@@ -1,61 +1,64 @@
 import inquirer from "inquirer";
-import { MongoClient } from "mongodb";
-import { generateApiKey } from "../utils/strings";
+import { AppResponse } from "../types/api";
 import { questions } from "../utils/questions";
+import { initializeAnalytics } from "../service/api";
+import { AxiosError } from "axios";
 
-async function registerApp(appName: string, apiKey: string): Promise<void> {
-  // Usamos una variable de entorno para la URI de MongoDB o un valor por defecto
-  const mongoUri = process.env.MONGO_URI as string;
-  const client = new MongoClient(mongoUri);
-
+async function registerApp(appName: string): Promise<string> {
   try {
-    await client.connect();
-    const db = client.db("analytics");
-    const apps = db.collection("applications");
+    const analyticsService = initializeAnalytics();
 
-    // Verificar si la app ya existe
-    const existingApp = await apps.findOne({ appName });
-    if (existingApp) {
-      throw new Error(`The application "${appName}" is already registered`);
-    }
+    const { data } = await analyticsService
+      .getAxiosInstance()
+      .post<AppResponse>("/apps/register", {
+        name: appName,
+      });
 
-    // Registrar nueva app
-    await apps.insertOne({
-      appName,
-      apiKey,
-      createdAt: new Date(),
-      active: true,
-    });
-
-    console.log("\n✅ Application successfully registered in the database");
+    console.log("\n✅ Aplicación registrada exitosamente en la base de datos");
+    return data.id;
   } catch (error) {
-    console.error("❌ Error registering the application:", error);
+    if (error instanceof AxiosError) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error(
+          "\n❌ Error del servidor:",
+          error.response.data.message || "Error desconocido"
+        );
+        console.error("Status:", error.response.status);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error(
+          "\n❌ No se pudo conectar con el servidor. Verifica tu conexión a internet."
+        );
+      } else {
+        // Something happened in setting up the request
+        console.error("\n❌ Error al configurar la petición:", error.message);
+      }
+    } else {
+      console.error("\n❌ Error inesperado:", error);
+    }
     throw error;
-  } finally {
-    await client.close();
   }
 }
 
 export async function setupCLI(): Promise<void> {
   try {
-    console.log("\n🔧 Track Analytics Setup\n");
-
-    // Preguntar solo el nombre de la aplicación
+    console.log("\n🔧 Configuración de Track Analytics\n");
     const answers = await inquirer.prompt([...questions]);
+    const apiKey = await registerApp(answers.appName);
 
-    // Generar API key
-    const apiKey = generateApiKey();
-
-    // Registrar en la base de datos
-    await registerApp(answers.appName, apiKey);
+    if (!apiKey) {
+      throw new Error("No se pudo obtener el API Key");
+    }
 
     // Mostrar información de configuración
-    console.log("\n📝 Your application information:");
+    console.log("\n📝 Información de tu aplicación:");
     console.log("--------------------------------");
-    console.log(`Name: ${answers.appName}`);
+    console.log(`Nombre: ${answers.appName}`);
     console.log(`API Key: ${apiKey}`);
 
-    console.log("\n📚 To start using tracking in your application:");
+    console.log("\n📚 Para comenzar a usar el tracking en tu aplicación:");
     console.log("\n```javascript");
     console.log("import { Tracker } from 'track-analytics';");
     console.log("const tracker = new Tracker({");
@@ -65,7 +68,10 @@ export async function setupCLI(): Promise<void> {
     console.log("await tracker.initialize();");
     console.log("```\n");
   } catch (error) {
-    console.error("\n❌ Error during setup:", error);
+    console.error("\n❌ Error durante la configuración");
+    if (error instanceof Error) {
+      console.error("Detalles:", error.message);
+    }
     process.exit(1);
   }
 }
